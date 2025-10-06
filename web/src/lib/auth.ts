@@ -36,11 +36,11 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ profile }) {
       // Restrict domain
-      const hd = (profile as any)?.hd as string | undefined;
+      const hd = (profile as Record<string, unknown> | null | undefined)?.hd as string | undefined;
       if (hd && hd.toLowerCase() !== GOOGLE_ALLOWED_DOMAIN) return false;
       // Some Google profiles may not include hd when account is not a Workspace user
-      if (!hd && (profile as any)?.email) {
-        const email = (profile as any).email as string;
+      if (!hd && (profile as Record<string, unknown> | null | undefined)?.email) {
+        const email = (profile as { email?: string }).email as string;
         const domain = email.split("@")[1]?.toLowerCase();
         if (domain !== GOOGLE_ALLOWED_DOMAIN) return false;
       }
@@ -48,13 +48,15 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, account, profile }) {
       if (account && profile) {
-        token.provider = account.provider;
+        (token as Record<string, unknown>).provider = account.provider;
       }
       return token;
     },
     async session({ session, token }) {
-      (session as any).provider = (token as any).provider;
-      return session;
+      return {
+        ...session,
+        provider: (token as Record<string, unknown>).provider as string | undefined,
+      } as typeof session & { provider?: string };
     },
   },
 };

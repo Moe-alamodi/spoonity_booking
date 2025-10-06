@@ -1,5 +1,5 @@
 import { addMinutes, differenceInMinutes, isAfter, isBefore } from "date-fns";
-import { scoringConfig } from "@/src/lib/scoring/config";
+import { scoringConfig } from "@/lib/scoring/config";
 
 export type SuggestParams = {
   organizerTz: string;

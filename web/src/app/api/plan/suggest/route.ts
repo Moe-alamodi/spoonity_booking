@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { addMinutes, isBefore, setHours, setMinutes, startOfDay, addDays, isWeekend } from "date-fns";
+import { suggestMinimal } from "@/lib/suggest/engine";
+import { scoringConfig } from "@/lib/scoring/config";
 
 const schema = z.object({
   organizerEmail: z.string().email(),
@@ -21,26 +23,24 @@ export async function POST(req: Request) {
     const now = new Date();
     const earliest = addMinutes(now, params.minNoticeHours * 60);
 
-    const suggestions: { start: string; end: string; score: number }[] = [];
-    // Minimal placeholder: iterate next N days within working hours, step by stepMinutes
-    outer: for (let dayOffset = 0; dayOffset < params.windowDays; dayOffset++) {
-      const day = addDays(startOfDay(now), dayOffset);
-      if (params.excludeWeekends && isWeekend(day)) continue;
-      let slot = setMinutes(setHours(day, params.fallbackStartHour), 0);
-      const dayEnd = setMinutes(setHours(day, params.fallbackEndHour), 0);
-      while (!isBefore(dayEnd, addMinutes(slot, params.durationMinutes))) {
-        if (isBefore(earliest, slot)) {
-          // naive score: earlier is better
-          const score = Math.max(20, 100 - dayOffset * 5);
-          suggestions.push({ start: slot.toISOString(), end: addMinutes(slot, params.durationMinutes).toISOString(), score });
-          if (suggestions.length >= 5) break outer;
-        }
-        slot = addMinutes(slot, params.stepMinutes);
-      }
-    }
+    const windowStart = addDays(startOfDay(now), 0);
+    const windowEnd = addDays(startOfDay(now), params.windowDays);
+    const suggestions = suggestMinimal({
+      organizerTz: "UTC",
+      participantTz: "UTC",
+      windowStart,
+      windowEnd,
+      durationMinutes: params.durationMinutes,
+      stepMinutes: params.stepMinutes,
+      fallbackStartHour: params.fallbackStartHour,
+      fallbackEndHour: params.fallbackEndHour,
+      excludeWeekends: params.excludeWeekends,
+      minNoticeHours: params.minNoticeHours,
+    }).map((s) => ({ start: s.startUtc, end: s.endUtc, score: Math.round(s.score) }));
 
-    return NextResponse.json({ suggestions });
-  } catch (err: any) {
-    return NextResponse.json({ error: err?.message || "Invalid request" }, { status: 400 });
+    return NextResponse.json({ suggestions, scoring: scoringConfig });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Invalid request";
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }

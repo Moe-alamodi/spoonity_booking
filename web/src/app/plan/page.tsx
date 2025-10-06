@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import PlanForm from "./planForm";
@@ -10,7 +11,7 @@ export default async function PlanPage() {
         <div className="max-w-md w-full space-y-4 text-center">
           <h1 className="text-2xl font-semibold">Sign in required</h1>
           <p className="text-gray-500 dark:text-gray-400">Please sign in to plan a meeting.</p>
-          <a href="/api/auth/signin" className="inline-block bg-black text-white px-4 py-2 rounded">Sign in with Google</a>
+          <Link href="/api/auth/signin" className="inline-block bg-black text-white px-4 py-2 rounded">Sign in with Google</Link>
         </div>
       </div>
     );

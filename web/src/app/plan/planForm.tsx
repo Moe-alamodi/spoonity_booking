@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
 
+type Suggestion = { start: string; end: string; score: number };
+
 export default function PlanForm({ organizerEmail }: { organizerEmail: string }) {
   const [participantEmail, setParticipantEmail] = useState("");
-  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(false);
 
   async function onSuggest(e: React.FormEvent) {
@@ -26,7 +28,7 @@ export default function PlanForm({ organizerEmail }: { organizerEmail: string })
           excludeWeekends: true,
         }),
       });
-      const json = await res.json();
+      const json: { suggestions?: Suggestion[] } = await res.json();
       setSuggestions(json.suggestions ?? []);
     } finally {
       setLoading(false);

@@ -1,7 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import type { NextAuthOptions } from "next-auth";
-import { db } from "@/src/lib/db";
+import { db } from "@/lib/db";
 
 const allowedDomain = process.env.GOOGLE_ALLOWED_DOMAIN;
 

@@ -12,10 +12,11 @@ const schema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const params = schema.parse(body);
+    schema.parse(body);
     // TODO: implement Google Calendar insert with Meet link using organizer's credentials
     return NextResponse.json({ ok: false, error: "Not implemented yet" }, { status: 501 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err?.message || "Invalid request" }, { status: 400 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Invalid request";
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }

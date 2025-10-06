@@ -10,10 +10,8 @@ export async function GET(req: Request) {
     querySchema.parse({ q });
     // TODO: implement Google Admin Directory search using stored super admin token
     return NextResponse.json({ users: [] });
-  } catch (err: any) {
-    return NextResponse.json(
-      { error: err?.message || "Invalid request" },
-      { status: 400 }
-    );
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Invalid request";
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }

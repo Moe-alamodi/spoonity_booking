@@ -14,10 +14,8 @@ export async function POST(req: Request) {
     const authLink = `${baseUrl}/participant/authorize`;
     await sendAuthInviteEmail(email, authLink);
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    return NextResponse.json(
-      { ok: false, error: err?.message || "Failed to send invite" },
-      { status: 400 }
-    );
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Failed to send invite";
+    return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 }
