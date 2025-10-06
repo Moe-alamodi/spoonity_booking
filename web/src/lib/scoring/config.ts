@@ -1,0 +1,25 @@
+export const scoringConfig = {
+  scoring: {
+    hardFilters: {
+      excludeWeekends: true,
+      minNoticeHours: 2,
+      skipPublicHolidays: true,
+    },
+    weights: {
+      busyOverlapPenaltyPerMinute: -5,
+      unknownAvailabilityPenaltyPerParticipant: -20,
+      outsideWorkingHoursPenaltyPerMinute: -0.5,
+      distanceFromHoursMidpointPenaltyPerHour: -5,
+      earlierIsBetterPenaltyPerDay: -2,
+    },
+    aggregation: {
+      maxScore: 100,
+      minScoreToSuggest: 20,
+    },
+    slot: {
+      defaultDurationMinutes: 30,
+      defaultStepMinutes: 30,
+      defaultTopSuggestions: 5,
+    },
+  },
+} as const;
