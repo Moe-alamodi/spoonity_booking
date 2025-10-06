@@ -1,4 +1,4 @@
-import { zonedTimeToUtc, utcToZonedTime } from "date-fns-tz";
+import { fromZonedTime as zonedTimeToUtc, toZonedTime as utcToZonedTime } from "date-fns-tz";
 import { addMinutes, isBefore } from "date-fns";
 
 export function toUtc(date: Date, tz: string) {
