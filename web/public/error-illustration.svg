@@ -1,0 +1,36 @@
+<svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="errorGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dc2626;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef2f2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fee2e2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="200" fill="url(#bgGradient)" rx="15"/>
+  
+  <!-- Error circle -->
+  <circle cx="150" cy="80" r="40" fill="url(#errorGradient)"/>
+  
+  <!-- X mark -->
+  <path d="M135 65 L165 95 M165 65 L135 95" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Error text -->
+  <text x="150" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#dc2626">
+    Error
+  </text>
+  
+  <text x="150" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#6b7280">
+    Something went wrong
+  </text>
+  
+  <!-- Decorative elements -->
+  <circle cx="50" cy="50" r="2" fill="#ef4444" opacity="0.3"/>
+  <circle cx="250" cy="60" r="3" fill="#dc2626" opacity="0.3"/>
+  <circle cx="80" cy="150" r="2" fill="#ef4444" opacity="0.3"/>
+  <circle cx="220" cy="140" r="2" fill="#dc2626" opacity="0.3"/>
+</svg>

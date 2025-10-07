@@ -1,12 +1,10 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import type { NextAuthOptions } from "next-auth";
-import { prisma } from "@/lib/prisma";
 
 const GOOGLE_ALLOWED_DOMAIN = process.env.GOOGLE_ALLOWED_DOMAIN || "spoonity.com";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  // No adapter needed for JWT strategy
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
@@ -47,16 +45,50 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token, account, profile }) {
-      if (account && profile) {
-        (token as Record<string, unknown>).provider = account.provider;
+      // Debug logging
+      console.log("JWT callback - account:", account ? {
+        provider: account.provider,
+        type: account.type,
+        hasAccessToken: !!account.access_token,
+        hasRefreshToken: !!account.refresh_token,
+        expiresAt: account.expires_at,
+        scope: account.scope
+      } : "No account");
+      
+      // Persist the OAuth access_token and refresh_token to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token;
+        token.accessTokenExpires = account.expires_at;
+        console.log("JWT callback - stored tokens:", {
+          hasAccessToken: !!token.accessToken,
+          hasRefreshToken: !!token.refreshToken,
+          expiresAt: token.accessTokenExpires
+        });
       }
       return token;
     },
     async session({ session, token }) {
-      return {
-        ...session,
-        provider: (token as Record<string, unknown>).provider as string | undefined,
-      } as typeof session & { provider?: string };
+      // Debug logging
+      console.log("Session callback - token:", {
+        hasAccessToken: !!token.accessToken,
+        hasRefreshToken: !!token.refreshToken,
+        expiresAt: token.accessTokenExpires
+      });
+      
+      // Send properties to the client
+      session.accessToken = token.accessToken;
+      session.refreshToken = token.refreshToken;
+      session.accessTokenExpires = token.accessTokenExpires;
+      
+      console.log("Session callback - final session:", {
+        user: session.user?.email,
+        hasAccessToken: !!session.accessToken,
+        hasRefreshToken: !!session.refreshToken,
+        expiresAt: session.accessTokenExpires
+      });
+      
+      return session;
     },
   },
 };

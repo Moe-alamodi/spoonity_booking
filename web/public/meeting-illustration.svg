@@ -1,0 +1,61 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0f9ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0f2fe;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d946ef;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bgGradient)" rx="20"/>
+  
+  <!-- Calendar icon -->
+  <g transform="translate(50, 50)">
+    <rect x="0" y="0" width="80" height="90" rx="8" fill="white" stroke="#e5e5e5" stroke-width="2"/>
+    <rect x="0" y="0" width="80" height="25" rx="8" fill="url(#primaryGradient)"/>
+    <rect x="15" y="5" width="50" height="15" rx="3" fill="white"/>
+    <circle cx="20" cy="45" r="3" fill="#0ea5e9"/>
+    <circle cx="35" cy="45" r="3" fill="#d946ef"/>
+    <circle cx="50" cy="45" r="3" fill="#22c55e"/>
+    <circle cx="65" cy="45" r="3" fill="#f59e0b"/>
+    <text x="40" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">Meeting</text>
+  </g>
+  
+  <!-- Clock icon -->
+  <g transform="translate(270, 50)">
+    <circle cx="40" cy="40" r="35" fill="white" stroke="#e5e5e5" stroke-width="2"/>
+    <circle cx="40" cy="40" r="3" fill="url(#accentGradient)"/>
+    <line x1="40" y1="40" x2="40" y2="20" stroke="url(#accentGradient)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="40" y1="40" x2="55" y2="40" stroke="url(#accentGradient)" stroke-width="2" stroke-linecap="round"/>
+    <text x="40" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">Schedule</text>
+  </g>
+  
+  <!-- People icons -->
+  <g transform="translate(150, 180)">
+    <circle cx="20" cy="20" r="15" fill="url(#primaryGradient)"/>
+    <circle cx="20" cy="15" r="6" fill="white"/>
+    <ellipse cx="20" cy="25" rx="8" ry="6" fill="white"/>
+    
+    <circle cx="60" cy="20" r="15" fill="url(#secondaryGradient)"/>
+    <circle cx="60" cy="15" r="6" fill="white"/>
+    <ellipse cx="60" cy="25" rx="8" ry="6" fill="white"/>
+    
+    <line x1="35" y1="20" x2="45" y2="20" stroke="#e5e5e5" stroke-width="2" stroke-linecap="round"/>
+    <text x="40" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">Collaborate</text>
+  </g>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="3" fill="#0ea5e9" opacity="0.3"/>
+  <circle cx="300" cy="120" r="4" fill="#d946ef" opacity="0.3"/>
+  <circle cx="80" cy="200" r="2" fill="#22c55e" opacity="0.3"/>
+  <circle cx="320" cy="180" r="3" fill="#f59e0b" opacity="0.3"/>
+</svg>
